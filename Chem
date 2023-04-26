@@ -1,10 +1,12 @@
 #ifndef CHEM
 #define CHEM
 
-#include<iomanip>
 #include<unordered_map>
 
 class Chem{
+    public :
+        const double AVOGADRO = 6.022e23;
+
     private :
         double elementMolarMass(std::string compund_name){
             std::unordered_map<std::string, double> table_map = {

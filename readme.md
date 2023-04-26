@@ -1,12 +1,10 @@
-# CHEM 
+# Chemical Molar Mass Calculator
 
-This is a C++ library that provides functionality for working with chemical formulas. The library includes functions for parsing chemical formulas, calculating molar masses(for now only does this), and more functions can be add.
-
-The library is designed to be modular and extensible, allowing you to easily add new functionality as needed. It is open-source and can be used by anyone working with chemical formulas in C++.
+This program is a console-based application that can calculate the molar mass of a given chemical compound. It can be used to quickly calculate the molar mass of a compound for a chemistry experiment, for example.
 
 ## Getting Started
 
-To use this program, you will need to have a C++ compiler installed on your system. Once you have a compiler installed, simply clone this repository and compile the `main.cpp` file using your compiler of choice.
+To use this program, you will need to have a C++ compiler installed on your system. Once you have a compiler installed, simply clone this repository and compile the `Chem.cpp` file using your compiler of choice.
 
 ## Usage
 
@@ -44,3 +42,24 @@ int main(){
 ## Contributing
 
 If you would like to contribute to this project, please feel free to submit a pull request or open an issue.
+
+## MANUALS : 
+
+### Variables :
+
+#### CHEM.AVOGADRO
+returns avogadro constant(6.022e23)
+
+### Functions :
+
+#### void compoundMolarMass(std::string compound,int i,long double &sum)
+returns the molar mass of a compound.number of atoms must be provided for each element, even if is 1.
+
+##### parameters
+std::string compound : the input, contains name of the compound.
+example : "H2O1"
+
+int i : index to read from the the compound.must be initially set to 0.
+
+long double &sum : stores the sum of mass of each elements.
+
