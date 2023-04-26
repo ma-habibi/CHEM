@@ -1,10 +1,12 @@
-# Chemical Molar Mass Calculator
+# CHEM 
 
-This program is a console-based application that can calculate the molar mass of a given chemical compound. It can be used to quickly calculate the molar mass of a compound for a chemistry experiment, for example.
+This is a C++ library that provides functionality for working with chemical formulas. The library includes functions for parsing chemical formulas, calculating molar masses(for now only does this), and more functions can be add.
+
+The library is designed to be modular and extensible, allowing you to easily add new functionality as needed. It is open-source and can be used by anyone working with chemical formulas in C++.
 
 ## Getting Started
 
-To use this program, you will need to have a C++ compiler installed on your system. Once you have a compiler installed, simply clone this repository and compile the `Chem.cpp` file using your compiler of choice.
+To use this program, you will need to have a C++ compiler installed on your system. Once you have a compiler installed, simply clone this repository and compile the `main.cpp` file using your compiler of choice.
 
 ## Usage
 
