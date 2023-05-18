@@ -1,65 +1,52 @@
-# Chemical Molar Mass Calculator
-
-This program is a console-based application that can calculate the molar mass of a given chemical compound. It can be used to quickly calculate the molar mass of a compound for a chemistry experiment, for example.
+# CHEM a library for chemical calculations
 
 ## Getting Started
 
-To use this program, you will need to have a C++ compiler installed on your system. Once you have a compiler installed, simply clone this repository and compile the `Chem.cpp` file using your compiler of choice.
+To use this program, clone this rep. then integrate any of chem function to your program.
 
 ## Usage
 
-To use this program, enter the chemical compound as a string in the following format: [Element][Number of atoms][Element][Number of atoms].... For example, the compound for water would be entered as H2O1.
-Once you have entered the compound, the program will calculate its molar mass and display the result.
-
 ### Example
 
-```cpp
-#include<iostream>
-#include"Chem"
+```java
+  public static void main(String[] args){
+    Chem chem = new Chem();//create an instance of Chem
+    
+    System.out.println(chem.getCompoundMolarMass("H2O1", 0, 0.0));//print out the molar mass of H2O
+    
+    return;
+  }
 
-int main(){
-    Chem chem;
-
-    std::string compound;
-    std::cout << " ENTER THE COMPOUND : " << std::endl;
-    std::cin >> compound;
-
-    long double sum = 0;
-
-    try{
-        chem.compoundMolarMass(compound, 0, sum);
-        std::cout << std::setprecision(9) << sum << std::endl;
-    }
-    catch(std::exception &e){
-        std::cout << "ERROR::" << e.what() << std::endl;
-    }
-
-
-    return 0;
-}
 ```
 
 ## Contributing
 
 If you would like to contribute to this project, please feel free to submit a pull request or open an issue.
+(for classmates and other students at nis. university, if you want to contribute to this project as a part of your chemistry course activity,
+but you are not sure how you can help this project feel free to message me.)
 
 ## MANUALS : 
 
 ### Variables :
 
-#### CHEM.AVOGADRO
+#### Chem.AVOGADRO
 returns avogadro constant(6.022e23)
 
 ### Functions :
 
-#### void compoundMolarMass(std::string compound,int i,long double &sum)
-returns the molar mass of a compound.number of atoms must be provided for each element, even if is 1.
+#### Chem.compoundMolarMass(string compound,int i,double sum)
+'Calculates the molar mass of a compound.'
 
-##### parameters
-std::string compound : the input, contains name of the compound.
-example : "H2O1"
+-param String compound : the input, contains name of the compound. number of atoms must be provided for each element, even if is 1.
+Example : "H2O1"
+-param int i : index to read from the the compound.must be initially set to 0.
+-param double sum : stores the sum of mass of each elements.
+-return a double, the molar mass of given compound.
 
-int i : index to read from the the compound.must be initially set to 0.
+#### Chem.getElementryElements(String compound, double element_g)
+'Calculates the number of elementary elements in a given compound.'
 
-long double &sum : stores the sum of mass of each elements.
-
+-param String compound : The compound formula as a string, containing the name of the compound.
+Example: "H2O1"
+-param double element_g : The mass of the elementary element in grams.
+-return a double, The number of elementary elements in the compound.
