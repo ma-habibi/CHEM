@@ -62,6 +62,12 @@ class Chem{
     return sum;//Handles the base case 
   }
 
+  public double getElementryElements(String compound, double element_g){
+    //Caculates number of elementary elements
+    double molar_mass = getCompoundMolarMass(compound, 0, 0.0);
+    return (element_g * AVOGADRO)/molar_mass;
+  }
+
   private void initElementsMap(){
       //Elemet-molar mass key-value pair stored in a linked hash map.
       table_map.put("H", 1.008);  table_map.put("He", 4.003); table_map.put("Li", 6.941);
@@ -102,14 +108,6 @@ class Chem{
 
   Chem(){//Constructore
     initElementsMap();//Initializes elements table
-  }
-
-  public static void main(String[] args){
-    Chem chem = new Chem();
-
-    System.out.println(chem.getCompoundMolarMass("F1", 0, 0.0));
-    
-    return;
   }
 }
 
