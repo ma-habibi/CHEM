@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Chem:
     def __init__(self): # Constructor
         # field variables
@@ -6,7 +8,6 @@ class Chem:
 
     # Initialize
     def init_elements_df(self):
-        import pandas as pd
         return pd.read_csv("./data.csv")
 
     # Tempreture Conversions
@@ -19,11 +20,10 @@ class Chem:
     # Molar Mass Calculations
     def get_element_molarmass(self, element):
         # Calculates molar_mass of element
-        """Returns molar mass of an element."""
         if element not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_molar_mass")
     
-        return self.elements_df.loc[self.elements_df["element"] == element, "molar_mass"].values[0]
+        return self.elements_df.loc[self.elements_df["element"] == element]["molar_mass"].values[0]
 
     def get_compound_molarmass(self, compound):
         # Calculates molar_mass of compound 
@@ -66,6 +66,19 @@ class Chem:
             return self.calculate_compound_molarmass(compound, i, sum_)
 
         return sum_
+
+    # Electron
+    def get_electron_configuration(self, el):
+        if el not in self.elements_df["element"].values:
+            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_electron_configuration()")
+
+        electron_configuration = self.elements_df.loc[self.elements_df["element"] == el]["ElectronConfiguration"].values[0]
+
+        if pd.isna(electron_configuration): # Check for Nan
+            raise ElectronConfigurationError(
+                    f"\n::No electron configuration found for element {el}:: -> CHEM.get_electron_configuration()")
+
+        return electron_configuration
 
     # Easter eggs
     def WALTERWHITE(self):
