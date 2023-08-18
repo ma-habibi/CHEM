@@ -16,12 +16,18 @@ class Chem:
         except Exception as e:
             raise Exception(f"::failed to load data:: --> {e}")
 
-    # Tempreture Conversions
+    # Unit Conversions
     def fahr_to_c(self, f):
         return (f - 32.0) / 1.8
 
     def c_to_fahr(self, c):
         return (c * 9.0 / 5.0) + 32.0
+
+    def atoms_to_mass(self, quantity, chemical):
+        # Takes the number of elementary elements (atoms or compounds), returns the mass of in grams.
+        molar_mass = self.get_compound_molarmass(chemical)
+
+        return (quantity * molar_mass) / self.AVOGADRO
 
     # Molar Mass Calculations
     def get_element_molarmass(self, element):
@@ -31,14 +37,14 @@ class Chem:
 
         return self.elements_df.loc[self.elements_df["element"] == element]["molar_mass"].values[0]
 
-    def get_compound_molarmass(self, compound):
-        # Calculates molar_mass of compound
-        return self.calculate_compound_molarmass(compound, 0, 0.0)
-
     def get_elementary_elements(self, compound, element_g):
         # Calculates the number of elementary elements in a compound
         molar_mass = self.get_compound_molarmass(compound)
         return (element_g * self.AVOGADRO) / molar_mass
+
+    def get_compound_molarmass(self, compound):
+        # Calculates molar_mass of compound
+        return self.calculate_compound_molarmass(compound, 0, 0.0)
 
     def calculate_compound_molarmass(self, compound, i, sum_):
         if i < len(compound):
@@ -113,4 +119,3 @@ class Chem:
             " ⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⠗⠂⠄⠀⣴⡟⠀⠀⡃⠀⠉⠉⠟⡿⣿⣿⣿⣿\n" +
             "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠾⠛⠂⢹⠀⠀⠀⢡⠀⠀⠀⠀⠀⠙⠛⠿⢿\n\n" +
             "Say My Name ");
-

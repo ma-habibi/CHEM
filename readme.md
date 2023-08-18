@@ -69,3 +69,9 @@ chem.get_elementary_elements(compound, element_g)
 returns the electron configuration of an element.
 """
 chem.get_electron_configuration(el)
+
+
+"""
+Takes the number of elementary elements (atoms or compounds) . returns the mass of in grams.
+"""
+chem.atoms_to_mass(2.35e24, "Cu1")
