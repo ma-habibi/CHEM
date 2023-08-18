@@ -8,7 +8,13 @@ class Chem:
 
     # Initialize
     def init_elements_df(self):
-        return pd.read_csv("./data.csv")
+        try:
+            df = pd.read_csv("./data.csv")
+            return df
+        except FileNotFoundError:
+            raise FileNotFoundError("::failed to load data:: -> the file is missing.")
+        except Exception as e:
+            raise Exception(f"::failed to load data:: --> {e}") 
 
     # Tempreture Conversions
     def fahr_to_c(self, f):
