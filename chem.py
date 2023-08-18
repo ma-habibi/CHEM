@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 class Chem:
     def __init__(self):  # Constructor
         # field variables
@@ -17,8 +16,7 @@ class Chem:
         except Exception as e:
             raise Exception(f"::failed to load data:: --> {e}")
 
-            # Tempreture Conversions
-
+    # Tempreture Conversions
     def fahr_to_c(self, f):
         return (f - 32.0) / 1.8
 
@@ -75,8 +73,7 @@ class Chem:
 
         return sum_
 
-        # Get GroupBlock by Element Symbol
-
+    # Get GroupBlock by Element Symbol
     def get_group(self, element):
         if element not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_group")
