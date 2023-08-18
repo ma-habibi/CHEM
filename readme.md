@@ -36,27 +36,36 @@ chem.AVOGADRO # returns avogadro constant(6.022e23)
 ```python
 chem = Chem() # creates an instance of Chem
 
-"""takes fahrenheit as input and outputs the amount in celsius."""
- chem.fahr_to_c(f)
+"""
+takes fahrenheit as input and outputs the amount in celsius.
+"""
+chem.fahr_to_c(f)
 
-
-"""takes celsius as input and outputs the amount in fahrenheit."""
+"""
+takes celsius as input and outputs the amount in fahrenheit.
+"""
 chem.c_to_fahr(c): 
 
-
-"""calculates the molar mass of an element."""
+"""
+calculates the molar mass of an element.
+"""
 chem.get_element_molarmass(element) 
 
 
-"""calculates the molar mass of compound.( calls the helper function calculate_compound_molarmass(compound, i:0, sum:0.0)) 
+"""
+calculates the molar mass of compound.( calls the helper function calculate_compound_molarmass(compound, i:0, sum:0.0)) 
 parameter compound : the input, contains name of the compound. number of atoms must be provided for each element, even if is 1. Example : "H2O1"
 """
 chem.get_compound_molarmass(compound)
 
 
-"""calculates the number of elementary elements in a given compound."""
+"""
+calculates the number of elementary elements in a given compound.
+"""
 chem.get_elementary_elements(compound, element_g)
 
 
-"""returns the electron configuration of an element."""
+"""
+returns the electron configuration of an element.
+"""
 chem.get_electron_configuration(el)
