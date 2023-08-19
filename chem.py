@@ -86,6 +86,16 @@ class Chem:
 
         group_block = self.elements_df.loc[self.elements_df["element"] == element]["GroupBlock"].values[0]
         return group_block
+    
+    # Get Density by Element Symbol
+    def get_element_density(self, element):
+        if element not in self.elements_df["element"].values:
+            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_density")
+        
+        density = self.elements_df.loc[self.elements_df["element"] == element]["Density"].values[0]
+        
+        
+        return density
 
     # Electron
     def get_electron_configuration(self, el):
@@ -119,3 +129,7 @@ class Chem:
             " ⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⠗⠂⠄⠀⣴⡟⠀⠀⡃⠀⠉⠉⠟⡿⣿⣿⣿⣿\n" +
             "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠾⠛⠂⢹⠀⠀⠀⢡⠀⠀⠀⠀⠀⠙⠛⠿⢿\n\n" +
             "Say My Name ");
+
+chem = Chem()
+a = chem.get_element_density('He') # 
+print(a)
