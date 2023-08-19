@@ -70,6 +70,11 @@ returns the electron configuration of an element.
 """
 chem.get_electron_configuration(el)
 
+"""
+return the element density of the element.
+"""
+chem.get_element_density(element)
+
 
 """
 Takes the number of elementary elements (atoms or compounds) . returns the mass of in grams.
