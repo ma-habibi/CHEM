@@ -5,9 +5,8 @@ class Chem:
         self.AVOGADRO = 6.022e23;
         self.elements_df = self.init_elements_df()
 
-    # Initialize
+    # Initializes the data frame
     def init_elements_df(self):
-        # initialize the data frame
         try:
             df = pd.read_csv("./data.csv")
             return df
@@ -16,39 +15,39 @@ class Chem:
         except Exception as e:
             raise Exception(f"::failed to load data:: --> {e}")
 
-    # Unit Conversions
+    # Converts fahrenheit to celsius
     def fahr_to_c(self, f):
-        # converts fahrenheit to celsius 
+        #
         return (f - 32.0) / 1.8
 
+    # Converts celsius to fahrenheit
     def c_to_fahr(self, c):
-        # converts celsius to fahrenheit
         return (c * 9.0 / 5.0) + 32.0
 
+    # Takes the number of elementary elements (atoms or compounds), returns the mass of in grams
     def atoms_to_mass(self, quantity, chemical):
-        # Takes the number of elementary elements (atoms or compounds), returns the mass of in grams.
         molar_mass = self.get_compound_molarmass(chemical)
 
         return (quantity * molar_mass) / self.AVOGADRO
 
+    # Calculates molar_mass of element
     def get_element_molarmass(self, element):
-        # Calculates molar_mass of element
         if element not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_molar_mass")
 
         return self.elements_df.loc[self.elements_df["element"] == element]["molar_mass"].values[0]
 
+    # Calculates the number of elementary elements in a compound
     def get_elementary_elements(self, compound, element_g):
-        # Calculates the number of elementary elements in a compound
         molar_mass = self.get_compound_molarmass(compound)
         return (element_g * self.AVOGADRO) / molar_mass
 
+    # Returns molar_mass of compound
     def get_compound_molarmass(self, compound):
-        # Returns molar_mass of compound
         return self.__calculate_compound_molarmass(compound, 0, 0.0)
 
+    # Calculates molar_mass of compound
     def __calculate_compound_molarmass(self, compound, i, sum_):
-        # Calculates molar_mass of compound
         if i < len(compound):
             # Get name of next element
             elementBuffer = ""
@@ -81,7 +80,7 @@ class Chem:
 
         return sum_
 
-    # Get GroupBlock by Element Symbol
+    # Get group of element symbol
     def get_group(self, element):
         if element not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_group")
@@ -89,7 +88,7 @@ class Chem:
         group_block = self.elements_df.loc[self.elements_df["element"] == element]["GroupBlock"].values[0]
         return group_block
 
-    # Electron
+    # Gets Electron configuration of an element
     def get_electron_configuration(self, el):
         if el not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_electron_configuration()")

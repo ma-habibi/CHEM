@@ -39,39 +39,40 @@ chem = Chem() # creates an instance of Chem
 """
 takes fahrenheit as input and outputs the amount in celsius.
 """
-chem.fahr_to_c(f)
+chem.fahr_to_c(32.0) # returns 0.0
 
 """
 takes celsius as input and outputs the amount in fahrenheit.
 """
-chem.c_to_fahr(c): 
+chem.c_to_fahr(0): # returns 32.0
 
 """
 calculates the molar mass of an element.
 """
-chem.get_element_molarmass(element) 
-
+chem.get_element_molarmass('He') # returns ~ 4.0
 
 """
 calculates the molar mass of compound.( calls the helper function calculate_compound_molarmass(compound, i:0, sum:0.0)) 
 parameter compound : the input, contains name of the compound. number of atoms must be provided for each element, even if is 1. Example : "H2O1"
 """
-chem.get_compound_molarmass(compound)
-
+chem.get_compound_molarmass("H2O1") # returns ~ 18.0
 
 """
 calculates the number of elementary elements in a given compound.
 """
-chem.get_elementary_elements(compound, element_g)
+chem.get_elementary_elements('c', 12.0) # returns 6.022e23
 
+"""
+returns group of element symbol
+"""
+chem.get_group('H') # returns Nonmetal
 
 """
 returns the electron configuration of an element.
 """
-chem.get_electron_configuration(el)
-
+chem.get_electron_configuration("He") # returns "1s2"
 
 """
 Takes the number of elementary elements (atoms or compounds) . returns the mass of in grams.
 """
-chem.atoms_to_mass(2.35e24, "Cu1")
+chem.atoms_to_mass(2.35e24, "Cu1") # returns ~ 248
