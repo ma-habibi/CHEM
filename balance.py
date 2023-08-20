@@ -2,10 +2,7 @@ class Balance:
     def __init__(self, left_side, right_side):
         self.left_side = left_side
         self.right_side = right_side
-
         self.balanced_equation = self.__get_balanced()
-
-        # print(self.__parse_formula("H_2O")
 
     def str(self):
         return self.balanced_equation
@@ -31,9 +28,32 @@ class Balance:
         for formula in right_formulas:
             right_formulas_parsed.append(self.__parse_formula(formula))
 
-        return left_formulas_parsed, right_formulas_parsed
-        
+        # return left_formulas_parsed, right_formulas_parsed
+        print(self.__is_balanced(left_formulas_parsed, right_formulas_parsed))
+
+        return
         # Balance
+
+    def __is_balanced(self, l, r):
+        # Returns True if formula is balanced
+        tmp = dict()
+        
+        for formula in l:
+            coefficent = int(formula.pop("coefficent", None))
+        
+            for element in formula.keys():
+                if element not in tmp:
+                    tmp[element] = 0
+        
+                tmp[element] += formula[element] * coefficent
+        
+        for formula in r:
+            coefficent = int(formula.pop("coefficent", None))
+        
+            for element in formula.keys():
+                tmp[element] -= formula[element] * coefficent
+        
+        return max(tmp.values()) == 0
         
     def __parse_formula(self, x):
         i = 0
@@ -100,5 +120,5 @@ class Balance:
         return left_side_table
     
 if __name__ == "__main__":
-    balance = Balance("2NH_3 + 5O_2", "2NO + 3H_2O")
+    balance = Balance("1C_3H_8 + 5O_2", "3CO_2 + 4H_2O")
     print(balance.str())
