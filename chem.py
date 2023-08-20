@@ -1,13 +1,13 @@
 import pandas as pd
 
 class Chem:
-    def __init__(self):  # Constructor
-        # field variables
+    def __init__(self):
         self.AVOGADRO = 6.022e23;
         self.elements_df = self.init_elements_df()
 
     # Initialize
     def init_elements_df(self):
+        # initialize the data frame
         try:
             df = pd.read_csv("./data.csv")
             return df
@@ -18,9 +18,11 @@ class Chem:
 
     # Unit Conversions
     def fahr_to_c(self, f):
+        # converts fahrenheit to celsius 
         return (f - 32.0) / 1.8
 
     def c_to_fahr(self, c):
+        # converts celsius to fahrenheit
         return (c * 9.0 / 5.0) + 32.0
 
     def atoms_to_mass(self, quantity, chemical):
@@ -29,7 +31,6 @@ class Chem:
 
         return (quantity * molar_mass) / self.AVOGADRO
 
-    # Molar Mass Calculations
     def get_element_molarmass(self, element):
         # Calculates molar_mass of element
         if element not in self.elements_df["element"].values:
@@ -43,10 +44,11 @@ class Chem:
         return (element_g * self.AVOGADRO) / molar_mass
 
     def get_compound_molarmass(self, compound):
-        # Calculates molar_mass of compound
-        return self.calculate_compound_molarmass(compound, 0, 0.0)
+        # Returns molar_mass of compound
+        return self.__calculate_compound_molarmass(compound, 0, 0.0)
 
-    def calculate_compound_molarmass(self, compound, i, sum_):
+    def __calculate_compound_molarmass(self, compound, i, sum_):
+        # Calculates molar_mass of compound
         if i < len(compound):
             # Get name of next element
             elementBuffer = ""
@@ -55,7 +57,7 @@ class Chem:
                 i += 1
 
             if len(elementBuffer) == 0:
-                raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.calculate_compound_molarmass")
+                raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.__calculate_compound_molarmass")
 
             # Get number of atoms
             atom_count_buffer = ""
@@ -66,7 +68,7 @@ class Chem:
 
             if len(atom_count_buffer) == 0:
                 raise ValueError(
-                    "\n::YOU MUST ENTER THE NUMBER OF ATOMS, EVEN IF THERE IS ONE (eg : 'H2O1'):: -> CHEM.calculate_compound_molarmass")
+                    "\n::YOU MUST ENTER THE NUMBER OF ATOMS, EVEN IF THERE IS ONE (eg : 'H2O1'):: -> CHEM.__calculate_compound_molarmass")
 
             atom_count = int(atom_count_buffer)
             molarmass = self.get_element_molarmass(elementBuffer)
@@ -75,7 +77,7 @@ class Chem:
             sum_ += (atom_count * molarmass)
 
             # Recursively calls itself with the new index for compound to read the next molecule
-            return self.calculate_compound_molarmass(compound, i, sum_)
+            return self.__calculate_compound_molarmass(compound, i, sum_)
 
         return sum_
 
