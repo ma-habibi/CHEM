@@ -17,7 +17,6 @@ class Chem:
 
     # Converts fahrenheit to celsius
     def fahr_to_c(self, f):
-        #
         return (f - 32.0) / 1.8
 
     # Converts celsius to fahrenheit
@@ -86,6 +85,11 @@ class Chem:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_group")
 
         group_block = self.elements_df.loc[self.elements_df["element"] == element]["GroupBlock"].values[0]
+        
+        if pd.isna(group_block):  # Check for Nan
+            raise groupBlockError(
+                f"\n::No block found for element {el}:: -> CHEM.get_group()")
+            
         return group_block
 
     # Gets Electron configuration of an element
