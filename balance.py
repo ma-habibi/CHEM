@@ -5,6 +5,9 @@ class Balance:
         self.balanced_equation = self.__get_balanced()
 
     def str(self):
+        """
+        returns a formated string of the balanced equation
+        """
         return self.balanced_equation
 
     def __get_balanced(self):
