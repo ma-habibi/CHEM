@@ -31,10 +31,22 @@ class Balance:
         for formula in right_formulas:
             right_formulas_parsed.append(self.__parse_formula(formula))
 
-        # return left_formulas_parsed, right_formulas_parsed
-        print(self.__is_balanced(left_formulas_parsed, right_formulas_parsed))
 
-        return
+        # TODO
+        # while not equation balance:
+            # if not element_balanced(C):
+                # balance c
+            # if not element_balance(O):
+                # balance o
+        # return equation
+
+
+        while not self.__is_balanced(left_formulas_parsed, right_formulas_parsed):
+            # self.__is_element_balanced()
+            pass
+        
+        return left_formulas_parsed, right_formulas_parsed
+
         # Balance
 
     def __is_balanced(self, l, r):
@@ -42,19 +54,25 @@ class Balance:
         tmp = dict()
         
         for formula in l:
-            coefficent = int(formula.pop("coefficent", None))
+            # coefficent = int(formula.pop("coefficent", None))
         
             for element in formula.keys():
+                if element == "coefficent":
+                    continue
+
                 if element not in tmp:
                     tmp[element] = 0
         
-                tmp[element] += formula[element] * coefficent
+                tmp[element] += formula[element] * int(formula["coefficent"])
         
         for formula in r:
-            coefficent = int(formula.pop("coefficent", None))
+            # coefficent = int(formula.pop("coefficent", None))
         
             for element in formula.keys():
-                tmp[element] -= formula[element] * coefficent
+                if element == "coefficent":
+                    continue
+
+                tmp[element] -= formula[element] * int(formula["coefficent"])
         
         return max(tmp.values()) == 0
         
@@ -124,4 +142,5 @@ class Balance:
     
 if __name__ == "__main__":
     balance = Balance("1C_3H_8 + 5O_2", "3CO_2 + 4H_2O")
+    # balance = Balance("2C + O_2", "2CO")
     print(balance.str())
