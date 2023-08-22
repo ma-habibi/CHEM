@@ -12,7 +12,7 @@ To use this program, clone this rep. then integrate any of chem function to your
   def main():
     # Creates an instance
     chem = Chem();
-    
+
     # Gets molar mass of water
     print(chem.get_compound_molarmass("H201")
 ```
@@ -21,7 +21,7 @@ To use this program, clone this rep. then integrate any of chem function to your
 
 If you would like to contribute to this project, please feel free to submit a pull request or open an issue.
 
-## Documentations : 
+## Documentations :
 
 ### Constants :
 
@@ -47,12 +47,18 @@ takes celsius as input and outputs the amount in fahrenheit.
 chem.c_to_fahr(0): # returns 32.0
 
 """
+returns the atomic number of the element based on symbol or name
+"""
+chem.get_atomic_number('He') # returns 2
+chem.get_atomic_number('Lithium') # returns 3
+
+"""
 calculates the molar mass of an element.
 """
 chem.get_element_molarmass('He') # returns ~ 4.0
 
 """
-calculates the molar mass of compound.( calls the helper function calculate_compound_molarmass(compound, i:0, sum:0.0)) 
+calculates the molar mass of compound.( calls the helper function calculate_compound_molarmass(compound, i:0, sum:0.0))
 parameter compound : the input, contains name of the compound. number of atoms must be provided for each element, even if is 1. Example : "H2O1"
 """
 chem.get_compound_molarmass("H2O1") # returns ~ 18.0
@@ -76,3 +82,4 @@ chem.get_electron_configuration("He") # returns "1s2"
 Takes the number of elementary elements (atoms or compounds) . returns the mass of in grams.
 """
 chem.atoms_to_mass(2.35e24, "Cu1") # returns ~ 248
+```
