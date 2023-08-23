@@ -1,4 +1,5 @@
 import pandas as pd
+from fuzzywuzzy import process
 
 class Chem:
     def __init__(self):
