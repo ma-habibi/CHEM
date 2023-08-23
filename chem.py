@@ -2,7 +2,7 @@ import pandas as pd
 
 class Chem:
     def __init__(self):
-        self.AVOGADRO = 6.022e23;
+        self.AVOGADRO = 6.022e23
         self.elements_df = self.init_elements_df()
 
     # Initializes the data frame
@@ -43,6 +43,25 @@ class Chem:
         molar_mass = self.get_compound_molarmass(chemical)
 
         return (quantity * molar_mass) / self.AVOGADRO
+
+    def get_element_density(self, element):
+        A = df.loc[:, ["name", "denisty"]]
+        # from data.csv choosing element and density column
+        # check spell of our input variable with element table
+        best_match_tuple = process.extractOne(element, A["element"])
+        best_match = best_match_tuple[0]
+        similarity = best_match_tuple[1]
+        if similarity >= 80:  # Adjust this threshold as needed
+            print(f"Did you mean: {best_match}?")
+            choice = input("Enter 'yes' if yes, or press Enter to continue: ")
+            if choice.lower() == 'yes':
+                element = best_match
+            else:
+                print("Using original input:", element)
+
+        # selecting our element from element column
+        ged = A[A["element"] == element]
+        return ged
 
     # Calculates molar_mass of element
     def get_element_molarmass(self, element):
@@ -138,4 +157,4 @@ class Chem:
             " ⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠹⣿⣧⣀⠀⠀⠀⠀⡀⣴⠁⢘⡙⢿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
             " ⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⠗⠂⠄⠀⣴⡟⠀⠀⡃⠀⠉⠉⠟⡿⣿⣿⣿⣿\n" +
             "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠾⠛⠂⢹⠀⠀⠀⢡⠀⠀⠀⠀⠀⠙⠛⠿⢿\n\n" +
-            "Say My Name ");
+            "Say My Name ")
