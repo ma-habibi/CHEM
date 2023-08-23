@@ -22,6 +22,21 @@ class Chem:
     # Converts celsius to fahrenheit
     def c_to_fahr(self, c):
         return (c * 9.0 / 5.0) + 32.0
+    
+    # Returns the atomic number based on the element symbol or name
+    def get_atomic_number(self, element):
+        field = "element" if len(element) <= 2 else "name"
+
+        if element not in self.elements_df[field].values:# Check for argument
+            raise ValueError(f"\n::NO SUCH {field}:: -> CHEM.get_atomic_number")
+
+        atomic_number = self.elements_df[self.elements_df[field] == element]["AtomicNumber"].values[0]
+
+        if pd.isna(atomic_number):# Check for Nan
+            raise ElectronConfigurationError(
+                f"\n::No atomic number found for element {element}:: -> CHEM.get_atomic_number()")
+
+        return atomic_number
 
     # Takes the number of elementary elements (atoms or compounds), returns the mass of in grams
     def atoms_to_mass(self, quantity, chemical):
