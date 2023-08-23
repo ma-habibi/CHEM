@@ -45,7 +45,7 @@ class Chem:
         return (quantity * molar_mass) / self.AVOGADRO
 
     def get_element_density(self, element):
-        A = df.loc[:, ["name", "denisty"]]
+        A = df.loc[:, ["name", "density"]]
         # from data.csv choosing element and density column
         # check spell of our input variable with element table
         best_match_tuple = process.extractOne(element, A["element"])
