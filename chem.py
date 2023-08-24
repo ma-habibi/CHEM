@@ -5,7 +5,6 @@ class Chem:
     def __init__(self):
         self.AVOGADRO = 6.022e23;
         self.elements_df = self.init_elements_df()
-
     # Initializes the data frame
     def init_elements_df(self):
         try:
