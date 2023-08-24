@@ -1,5 +1,11 @@
 import pandas as pd
-from fuzzywuzzy import process
+
+def main():
+    # Creates an instance
+    chem = Chem();
+
+    # Gets molar mass of water
+    print(chem.get_compound_molarmass("H201"))
 
 class Chem:
     def __init__(self):
@@ -46,22 +52,12 @@ class Chem:
         return (quantity * molar_mass) / self.AVOGADRO
 
     def get_element_density(self, element):
-        A = df.loc[:, ["name", "density"]]
+        if element not in self.elements_df["element"].values:
+            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_density")
         # from data.csv choosing element and density column
-        # check spell of our input variable with element table
-        best_match_tuple = process.extractOne(element, A["element"])
-        best_match = best_match_tuple[0]
-        similarity = best_match_tuple[1]
-        if similarity >= 80:  # Adjust this threshold as needed
-            print(f"Did you mean: {best_match}?")
-            choice = input("Enter 'yes' if yes, or press Enter to continue: ")
-            if choice.lower() == 'yes':
-                element = best_match
-            else:
-                print("Using original input:", element)
-
+        a = df.loc[:, ["name", "density"]]
         # selecting our element from element column
-        ged = A[A["element"] == element]
+        ged = a[a["element"] == element]
         return ged
 
     # Calculates molar_mass of element
