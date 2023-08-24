@@ -21,7 +21,7 @@ class Chem:
         return (f - 32.0) / 1.8
 
     # Converts celsius to fahrenheit
-    def c_to_fahr(self, c: float) -> float:
+    def c_to_fahr(self, c: Union[int, float]) -> float:
         return (c * 9.0 / 5.0) + 32.0
     
     # Returns the atomic number based on the element symbol or name
