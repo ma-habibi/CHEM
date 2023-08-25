@@ -37,8 +37,3 @@ class Element:
 
 
 Element.create_all_element_objects()
-
-
-print(F.is_more_electronegative(O))
-
-print(F)
