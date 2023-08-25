@@ -5,67 +5,59 @@ class Balance:
     def __init__(self, left_side, right_side):
         self.left_side = left_side
         self.right_side = right_side
-
+        self.left_tables = []
+        self.right_tables = []
+        self.elements = set()
+        self.__initialize()
         print("in")
         print(f"{left_side} --> {right_side}")
         print("out")
         self.balanced_equation = self.__get_balanced()
 
-    def str(self):
-        """
-        returns a formated string of the balanced equation
-        """
-        equation = self.balanced_equation
-        output = ""
-        for left in equation[0]:
-            coefficent = left.pop("coefficent", None)
-            output += str(coefficent)
+    def __initialize(self):
+        left_formulas = self.left_side.split(" ")
+        left_formulas = [formula for formula in left_formulas if formula != '+']
 
-            keys = left.keys()
+        right_formulas = self.right_side.split(" ")
+        right_formulas = [formula for formula in right_formulas if formula != '+']
+
+        for formula in left_formulas:
+            self.left_tables.append(self.__parse_formula(formula))
+
+        for formula in right_formulas:
+            self.right_tables.append(self.__parse_formula(formula))
+
+        for t in self.left_tables:
+            keys = t.keys()
             for k in keys:
-                output += f"{k}_{left[k]}"
+                if k == "coefficent":
+                    continue
 
-            output += " + "
+                self.elements.add(k)
 
-        output += " ---> "
-
-        for right in equation[1]:
-            coefficent = right.pop("coefficent", None)
-            output += str(coefficent)
-
-            keys = right.keys()
+        for t in self.left_tables:
+            keys = t.keys()
             for k in keys:
-                output += f"{k}_{right[k]}"
+                if k == "coefficent":
+                    continue
 
-            output += " + "
+                self.elements.add(k)
 
-        return output
+    def __calculate_balanced(self):
+        # Parse and balance the formulas
+        left_formulas_parsed = self.left_tables
+        right_formulas_parsed = self.right_tables
 
-    def __is_element_balanced(self, element, d):
-        # access formula
-        lefts = np.array([])
-        left_co = np.array([])
-        rights = np.array([])
-        right_co = np.array([])
-    
-        for a in d[0]:
-            if element in a.keys():
-                lefts = np.append(lefts, np.int32(a[element]))
-                left_co = np.append(left_co, np.int32(a['coefficent']))
-        
-        for a in d[1]:
-            if element in a.keys():
-                rights = np.append(rights, np.int32(a[element]))
-                right_co = np.append(right_co, np.int32(a['coefficent']))
-    
-        # Algortithm to balance element
-        if np.dot(rights, right_co) == np.dot(lefts, left_co):
-            return True
-    
-        return False
-            
-    def __get_balanced(self):
-        return self.__calculate_balanced()
+        while not self.__is_balanced(left_formulas_parsed, right_formulas_parsed):
+            equation = (left_formulas_parsed, right_formulas_parsed)
+            for element in self.elements:
+                self.__balance_element(element, equation)
+                self.__balance_element(element, equation)
+                self.__balance_element(element, equation)
+
+        print(self.__is_balanced(left_formulas_parsed, right_formulas_parsed)) # DEBUG
+
+        return left_formulas_parsed, right_formulas_parsed
 
     def __balance_element(self, element, d):
         # access formula
@@ -88,7 +80,7 @@ class Balance:
         if np.dot(rights, right_co) == np.dot(lefts, left_co):
             return
     
-        low = (100000, 10000)
+        low = (100000, 10000) # DEBUG
         start = target = 0
     
         if np.dot(lefts, left_co) > np.dot(rights, right_co):
@@ -136,63 +128,40 @@ class Balance:
         for a in d[1]:# right hand side
             if element in a.keys():
                 a['coefficent'] = r_c.pop(0)
-    
-    def __calculate_balanced(self):
-        # Parse and balance the formulas
-
-        left_formulas = self.left_side.split(" ")
-        left_formulas = [formula for formula in left_formulas if formula != '+']
-
-        right_formulas = self.right_side.split(" ")
-        right_formulas = [formula for formula in right_formulas if formula != '+']
-
-        left_formulas_parsed = list() # list of dicts
-        right_formulas_parsed = list()
-
-        for formula in left_formulas:
-            left_formulas_parsed.append(self.__parse_formula(formula))
-
-        for formula in right_formulas:
-            right_formulas_parsed.append(self.__parse_formula(formula))
-
-        while not self.__is_balanced(left_formulas_parsed, right_formulas_parsed):
-            equation = (left_formulas_parsed, right_formulas_parsed)
-            self.__balance_element('C', equation)
-            self.__balance_element('H', equation)
-            self.__balance_element('O', equation)
-
-        print(self.__is_balanced(left_formulas_parsed, right_formulas_parsed))
-
-        return left_formulas_parsed, right_formulas_parsed
 
     def __is_balanced(self, l, r):
-        return self.__is_element_balanced('O', (l, r)) and self.__is_element_balanced('C', (l, r)) and self.__is_element_balanced('H', (l, r))
-        # Returns True if formula is balanced
-        # tmp = dict()
-        # 
-        # for formula in l:
-        #     # coefficent = int(formula.pop("coefficent", None))
-        # 
-        #     for element in formula.keys():
-        #         if element == "coefficent":
-        #             continue
+        for element in self.elements:
+            if not self.__is_element_balanced(element, (l, r)):
+                return False
 
-        #         if element not in tmp:
-        #             tmp[element] = 0
-        # 
-        #         tmp[element] += formula[element] * int(formula["coefficent"])
-        # 
-        # for formula in r:
-        #     # coefficent = int(formula.pop("coefficent", None))
-        # 
-        #     for element in formula.keys():
-        #         if element == "coefficent":
-        #             continue
+        return True
 
-        #         tmp[element] -= formula[element] * int(formula["coefficent"])
-        # 
-        # return max(tmp.values()) == 0
+    def __is_element_balanced(self, element, d):
+        # access formula
+        lefts = np.array([])
+        left_co = np.array([])
+        rights = np.array([])
+        right_co = np.array([])
+    
+        for a in d[0]:
+            if element in a.keys():
+                lefts = np.append(lefts, np.int32(a[element]))
+                left_co = np.append(left_co, np.int32(a['coefficent']))
         
+        for a in d[1]:
+            if element in a.keys():
+                rights = np.append(rights, np.int32(a[element]))
+                right_co = np.append(right_co, np.int32(a['coefficent']))
+    
+        # Algortithm to balance element
+        if np.dot(rights, right_co) == np.dot(lefts, left_co):
+            return True
+    
+        return False
+            
+    def __get_balanced(self):
+        return self.__calculate_balanced()
+
     def __parse_formula(self, x):
         i = 0
         
@@ -256,9 +225,48 @@ class Balance:
                 left_side_table[element] = 1
 
         return left_side_table
+
+    def str(self):
+        """
+        returns a formated string of the balanced equation
+        """
+        equation = self.balanced_equation
+        output = ""
+
+        i = 0
+        for left in equation[0]:
+            coefficent = left.pop("coefficent", None)
+            output += str(coefficent)
+
+            keys = left.keys()
+            for k in keys:
+                output += f"{k}_{left[k]}"
+
+            if not i == len(equation[0]) - 1:
+                output += " + "
+
+            i += 1
+
+        output += " ---> "
+
+        i = 0
+        for right in equation[1]:
+            coefficent = right.pop("coefficent", None)
+            output += str(coefficent)
+
+            keys = right.keys()
+            for k in keys:
+                output += f"{k}_{right[k]}"
+
+            if not i == len(equation[1]) - 1:
+                output += " + "
+
+            i += 1
+
+        return output
     
 if __name__ == "__main__":
-    balance = Balance("2C_3H_8 + 15O_2", "6CO_2 + 8H_2O")
-    balance = Balance("2C + 25O_2", "2CO")
-    #balance = Balance("O + 2O_3 + 4OK", "O + K")
+    # balance = Balance("2C_3H_8 + 15O_2", "6CO_2 + 8H_2O")
+    # balance = Balance("2C + 25O_2", "2CO")
+    balance = Balance("C_4H_10 + O_2", "CO_2 + H_2O")
     print(balance.str())
