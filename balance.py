@@ -55,7 +55,8 @@ class Balance:
                 self.__balance_element(element, equation)
                 self.__balance_element(element, equation)
 
-        print(self.__is_balanced(left_formulas_parsed, right_formulas_parsed)) # DEBUG
+        # uncomment for debug
+        # print(self.__is_balanced(left_formulas_parsed, right_formulas_parsed)) # DEBUG
 
         return left_formulas_parsed, right_formulas_parsed
 
@@ -96,8 +97,8 @@ class Balance:
                     index = i
                     target = right_co_cp[i]
     
-            print(f"the least big is if {right_co[index]} goes to -> {target} the diff would be {low}")
-    
+            # uncomment for debug
+            # print(f"the least big is if {right_co[index]} goes to -> {target} the diff would be {low}")
             right_co[index] = target
     
         elif np.dot(lefts, left_co) < np.dot(rights, right_co):
@@ -113,7 +114,8 @@ class Balance:
                     index = i
                     target = left_co_cp[i]
     
-            print(f"the least big is if {left_co[index]} goes to -> {target} the diff would be {low}")
+            # uncomment for debug
+            # print(f"the least big is if {left_co[index]} goes to -> {target} the diff would be {low}")
     
             left_co[index] = target
     
@@ -266,7 +268,13 @@ class Balance:
         return output
     
 if __name__ == "__main__":
-    # balance = Balance("2C_3H_8 + 15O_2", "6CO_2 + 8H_2O")
-    # balance = Balance("2C + 25O_2", "2CO")
-    balance = Balance("C_4H_10 + O_2", "CO_2 + H_2O")
-    print(balance.str())
+    test = []
+    test.append(("C_4H_10 + O_2", "CO_2 + H_2O"))
+    test.append(("Al + HCl", "AlCl_3 + H_2"))
+    test.append(("Ga + CuBr_2", "GaBr_3 + Cu"))
+    test.append(("I_2 + F_2", "IF_7"))
+    test.append(("SO_2 + O_2", "SO_3"))
+    test.append(("Na + S_8", "Na_2S"))
+    for each in test:
+        balance = Balance(each[0], each[1])
+        print(balance.str())
