@@ -43,6 +43,9 @@ class Balance:
 
         while not self.__is_balanced(left_formulas_parsed, right_formulas_parsed):
             # self.__is_element_balanced()
+
+            print("no")
+            return left_formulas_parsed, right_formulas_parsed
             pass
         
         return left_formulas_parsed, right_formulas_parsed
@@ -141,6 +144,7 @@ class Balance:
         return left_side_table
     
 if __name__ == "__main__":
-    balance = Balance("1C_3H_8 + 5O_2", "3CO_2 + 4H_2O")
-    # balance = Balance("2C + O_2", "2CO")
+    # balance = Balance("2C_3H_8 + 15O_2", "6CO_2 + 8H_2O")
+    # balance = Balance("2C + 25O_2", "2CO")
+    balance = Balance("O + 2O_3 + 4OK", "O + K")
     print(balance.str())
