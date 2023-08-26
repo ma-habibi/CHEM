@@ -71,10 +71,11 @@ class Chem:
         """
 
         return (c * 9.0 / 5.0) + 32.0
-
-    # Returns the atomic number based on the element symbol or name
+   
     def get_atomic_number(self, element: str) -> float:
         """
+        # Returns the atomic number based on the element symbol or name
+
         chem = Chem()
         chem.get_atomic_number('He') # returns 2
         chem.get_atomic_number('Lithium') # returns 3
@@ -93,9 +94,10 @@ class Chem:
 
         return atomic_number
 
-    # Takes the number of elementary elements (atoms or compounds), returns the mass of in grams
     def atoms_to_mass(self, quantity: int, chemical: str) -> float:
         """
+        # Takes the number of elementary elements (atoms or compounds), returns the mass of in grams
+
         chem = Chem()
         chem.atoms_to_mass(2.35e24, "Cu1") # returns ~ 248
         """
