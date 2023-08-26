@@ -9,12 +9,12 @@ To use this program, clone this rep. then integrate any of chem function to your
 ### Example
 
 ```python
-  def main():
-    # Creates an instance
-    chem = Chem();
+if __name__ == "__main__":
+  # Creates an instance
+  chem = Chem();
 
-    # Gets molar mass of water
-    print(chem.get_compound_molarmass("H201")
+  # Gets molar mass of water
+  print(chem.get_compound_molarmass("H201")
 ```
 
 ## Contributing
@@ -23,6 +23,8 @@ If you would like to contribute to this project, please feel free to submit a pu
 
 ## Documentations :
 
+## chem.py :
+
 ### Constants :
 
 ```python
@@ -30,9 +32,7 @@ chem = Chem()
 
 chem.AVOGADRO # returns avogadro constant(6.022e23)
 ```
-
-### Functions :
-
+### Methods :
 ```python
 chem = Chem() # creates an instance of Chem
 
@@ -82,4 +82,15 @@ chem.get_electron_configuration("He") # returns "1s2"
 Takes the number of elementary elements (atoms or compounds) . returns the mass of in grams.
 """
 chem.atoms_to_mass(2.35e24, "Cu1") # returns ~ 248
+
+```
+
+## balance.py
+```python
+"""
+Balances an equation, returns the balanced equation as a string.
+"""
+balance = Balance("C_4H_10 + O_2", "CO_2 + H_2O") 
+
+balance.str() # -> returns 2C_4H_10 + 13O_2 --> 8C_1O_2 + 10H_2O_1
 ```
