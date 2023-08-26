@@ -52,24 +52,26 @@ class Chem:
         except Exception as e:
             raise Exception(f"::failed to load data:: --> {e}")
 
-    # Converts fahrenheit to celsius
     def fahr_to_c(self, f: Union[int, float]) -> float:
         """
+        # Converts fahrenheit to celsius
+        
         chem = Chem()
         chem.fahr_to_c(32.0) # returns 0.0
         """
 
         return (f - 32.0) / 1.8
 
-    # Converts celsius to fahrenheit
     def c_to_fahr(self, c: Union[int, float]) -> float:
         """
+        # Converts celsius to fahrenheit
+        
         chem = Chem()
         chem.c_to_fahr(0): # returns 32.0
         """
 
         return (c * 9.0 / 5.0) + 32.0
-    
+
     # Returns the atomic number based on the element symbol or name
     def get_atomic_number(self, element: str) -> float:
         """
@@ -80,12 +82,12 @@ class Chem:
 
         field = "element" if len(element) <= 2 else "name"
 
-        if element not in self.elements_df[field].values:# Check for argument
+        if element not in self.elements_df[field].values:  # Check for argument
             raise ValueError(f"\n::NO SUCH {field}:: -> CHEM.get_atomic_number")
 
         atomic_number = self.elements_df[self.elements_df[field] == element]["AtomicNumber"].values[0]
 
-        if pd.isna(atomic_number):# Check for Nan
+        if pd.isna(atomic_number):  # Check for Nan
             raise ElectronConfigurationError(
                 f"\n::No atomic number found for element {element}:: -> CHEM.get_atomic_number()")
 
@@ -102,9 +104,30 @@ class Chem:
 
         return (quantity * molar_mass) / self.AVOGADRO
 
-    # Calculates molar_mass of element
+    def get_element_density(self, element: str) -> float:
+        """
+        chem = Chem()
+        chem.get_element_density("He") # returns ~ 0.0001785
+        """
+        
+        # Checks for argument
+        if element not in self.elements_df["element"].values:
+            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_density")
+
+        # Accesses data
+        density = self.elements_df.loc[self.elements_df["element"] == element]["Density"].values[0]
+
+        # checks for Nan
+        if pd.isna(density):  # Check for Nan
+            raise ElectronConfigurationError(
+                f"\n::No density found for element {element}:: -> CHEM.get_element_density()")
+
+        return density
+
     def get_element_molarmass(self, element: str) -> float:
         """
+        # Calculates molar_mass of element
+        
         chem = Chem()
         chem.get_element_molarmass('He') # returns ~ 4.0
         """
@@ -114,9 +137,10 @@ class Chem:
 
         return self.elements_df.loc[self.elements_df["element"] == element]["molar_mass"].values[0]
 
-    # Calculates the number of elementary elements in a compound
     def get_elementary_elements(self, compound: str, element_g: Union[int, float]) -> float:
         """
+        # Calculates the number of elementary elements in a compound
+        
         chem = Chem()
         chem.get_elementary_elements('c', 12.0) # returns 6.022e23
         """
@@ -124,19 +148,20 @@ class Chem:
         molar_mass = self.get_compound_molarmass(compound)
         return (element_g * self.AVOGADRO) / molar_mass
 
-    # Returns molar_mass of compound
     def get_compound_molarmass(self, compound: str) -> float:
         """
+        # Returns molar_mass of compound
+        
         chem = Chem()
         chem.get_compound_molarmass("H2O1") # returns ~ 18.0
         """
 
         return self.__calculate_compound_molarmass(compound, 0, 0.0)
-
-
-    # Get group of element symbol
+   
     def get_group(self, element: str) -> str:
         """
+        # Get group of element symbol
+         
         chem = Chem()
         chem.get_group('H') # returns Nonmetal
         """
@@ -145,16 +170,17 @@ class Chem:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_group")
 
         group_block = self.elements_df.loc[self.elements_df["element"] == element]["GroupBlock"].values[0]
-        
+
         if pd.isna(group_block):  # Check for Nan
             raise groupBlockError(
                 f"\n::No block found for element {el}:: -> CHEM.get_group()")
-            
-        return group_block
 
-    # Gets Electron configuration of an element
+        return group_block
+    
     def get_electron_configuration(self, el: str) -> str:
         """
+        # Gets Electron configuration of an element
+        
         chem = Chem()
         chem.get_electron_configuration("He") # returns "1s2"
         """
@@ -162,7 +188,8 @@ class Chem:
         if el not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_electron_configuration()")
 
-        electron_configuration = self.elements_df.loc[self.elements_df["element"] == el]["ElectronConfiguration"].values[0]
+        electron_configuration = \
+        self.elements_df.loc[self.elements_df["element"] == el]["ElectronConfiguration"].values[0]
 
         if pd.isna(electron_configuration):  # Check for Nan
             raise ElectronConfigurationError(
@@ -188,4 +215,4 @@ class Chem:
             " ⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠹⣿⣧⣀⠀⠀⠀⠀⡀⣴⠁⢘⡙⢿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
             " ⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⠗⠂⠄⠀⣴⡟⠀⠀⡃⠀⠉⠉⠟⡿⣿⣿⣿⣿\n" +
             "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠾⠛⠂⢹⠀⠀⠀⢡⠀⠀⠀⠀⠀⠙⠛⠿⢿\n\n" +
-            "Say My Name ");
+            "Say My Name ")
