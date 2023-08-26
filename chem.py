@@ -4,7 +4,7 @@ from typing import Union
 class Chem:
     def __init__(self):
         self.AVOGADRO = 6.022e23;
-        self.elements_df = self.init_elements_df()
+        self.elements_df = self.__init_elements_df()
 
     def __calculate_compound_molarmass(self, compound: str, i: int, sum_: float) -> float:
     """Calculates molar_mass of compound"""
@@ -41,8 +41,9 @@ class Chem:
 
         return sum_
 
-    # Initializes the data frame
-    def init_elements_df(self):
+    def __init_elements_df(self):
+        """Initializes the data frame"
+        
         try:
             df = pd.read_csv("./data.csv")
             return df
