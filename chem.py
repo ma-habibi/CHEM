@@ -1,11 +1,13 @@
 import pandas as pd
 
+
 def main():
     # Creates an instance
-    chem = Chem();
+    chem = Chem()
 
     # Gets molar mass of water
     print(chem.get_compound_molarmass("H201"))
+
 
 class Chem:
     def __init__(self):
@@ -29,17 +31,17 @@ class Chem:
     # Converts celsius to fahrenheit
     def c_to_fahr(self, c):
         return (c * 9.0 / 5.0) + 32.0
-    
+
     # Returns the atomic number based on the element symbol or name
     def get_atomic_number(self, element):
         field = "element" if len(element) <= 2 else "name"
 
-        if element not in self.elements_df[field].values:# Check for argument
+        if element not in self.elements_df[field].values:  # Check for argument
             raise ValueError(f"\n::NO SUCH {field}:: -> CHEM.get_atomic_number")
 
         atomic_number = self.elements_df[self.elements_df[field] == element]["AtomicNumber"].values[0]
 
-        if pd.isna(atomic_number):# Check for Nan
+        if pd.isna(atomic_number):  # Check for Nan
             raise ElectronConfigurationError(
                 f"\n::No atomic number found for element {element}:: -> CHEM.get_atomic_number()")
 
@@ -52,13 +54,19 @@ class Chem:
         return (quantity * molar_mass) / self.AVOGADRO
 
     def get_element_density(self, element):
+        # Checks for argument
         if element not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_density")
-        # from data.csv choosing element and density column
-        a = df.loc[:, ["name", "density"]]
-        # selecting our element from element column
-        ged = a[a["element"] == element]
-        return ged
+
+        # Accesses data
+        density = self.elements_df.loc[self.elements_df["element"] == element]["Density"].values[0]
+
+        # checks for Nan
+        if pd.isna(density):  # Check for Nan
+            raise ElectronConfigurationError(
+                f"\n::No density found for element {element}:: -> CHEM.get_element_density()")
+
+        return density
 
     # Calculates molar_mass of element
     def get_element_molarmass(self, element):
@@ -116,11 +124,11 @@ class Chem:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_group")
 
         group_block = self.elements_df.loc[self.elements_df["element"] == element]["GroupBlock"].values[0]
-        
+
         if pd.isna(group_block):  # Check for Nan
             raise groupBlockError(
                 f"\n::No block found for element {el}:: -> CHEM.get_group()")
-            
+
         return group_block
 
     # Gets Electron configuration of an element
@@ -128,7 +136,8 @@ class Chem:
         if el not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_electron_configuration()")
 
-        electron_configuration = self.elements_df.loc[self.elements_df["element"] == el]["ElectronConfiguration"].values[0]
+        electron_configuration = \
+        self.elements_df.loc[self.elements_df["element"] == el]["ElectronConfiguration"].values[0]
 
         if pd.isna(electron_configuration):  # Check for Nan
             raise ElectronConfigurationError(
