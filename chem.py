@@ -24,7 +24,7 @@ class Chem:
         return (c * 9.0 / 5.0) + 32.0
     
     # Returns the atomic number based on the element symbol or name
-    def get_atomic_number(self, element):
+    def get_atomic_number(self, element: str) -> float:
         field = "element" if len(element) <= 2 else "name"
 
         if element not in self.elements_df[field].values:# Check for argument
@@ -39,29 +39,29 @@ class Chem:
         return atomic_number
 
     # Takes the number of elementary elements (atoms or compounds), returns the mass of in grams
-    def atoms_to_mass(self, quantity, chemical):
+    def atoms_to_mass(self, quantity: int, chemical: str) -> float:
         molar_mass = self.get_compound_molarmass(chemical)
 
         return (quantity * molar_mass) / self.AVOGADRO
 
     # Calculates molar_mass of element
-    def get_element_molarmass(self, element):
+    def get_element_molarmass(self, element: str) -> float:
         if element not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_molar_mass")
 
         return self.elements_df.loc[self.elements_df["element"] == element]["molar_mass"].values[0]
 
     # Calculates the number of elementary elements in a compound
-    def get_elementary_elements(self, compound, element_g):
+    def get_elementary_elements(self, compound: str, element_g: Union[int, float]) -> float:
         molar_mass = self.get_compound_molarmass(compound)
         return (element_g * self.AVOGADRO) / molar_mass
 
     # Returns molar_mass of compound
-    def get_compound_molarmass(self, compound):
+    def get_compound_molarmass(self, compound: str) -> float:
         return self.__calculate_compound_molarmass(compound, 0, 0.0)
 
     # Calculates molar_mass of compound
-    def __calculate_compound_molarmass(self, compound, i, sum_):
+    def __calculate_compound_molarmass(self, compound: str, i: int, sum_: float) -> float:
         if i < len(compound):
             # Get name of next element
             elementBuffer = ""
@@ -95,7 +95,7 @@ class Chem:
         return sum_
 
     # Get group of element symbol
-    def get_group(self, element):
+    def get_group(self, element: str) -> str:
         if element not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_group")
 
@@ -108,7 +108,7 @@ class Chem:
         return group_block
 
     # Gets Electron configuration of an element
-    def get_electron_configuration(self, el):
+    def get_electron_configuration(self, el: str) -> str:
         if el not in self.elements_df["element"].values:
             raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_electron_configuration()")
 
@@ -120,7 +120,7 @@ class Chem:
 
         return electron_configuration
 
-    def WALTERWHITE(self):
+    def WALTERWHITE(self) -> str:
         print(
             " ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
             " ⣿⣿⣿⣿⣿⣿⣿⣿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
