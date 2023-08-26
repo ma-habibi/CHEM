@@ -42,7 +42,7 @@ class Chem:
         return sum_
 
     def __init_elements_df(self):
-        """Initializes the data frame"
+        """Initializes the data frame"""
         
         try:
             df = pd.read_csv("./data.csv")
