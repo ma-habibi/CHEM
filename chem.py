@@ -1,5 +1,5 @@
 import pandas as pd
-
+from typing import Union
 class Chem:
     def __init__(self):
         self.AVOGADRO = 6.022e23;
@@ -16,11 +16,11 @@ class Chem:
             raise Exception(f"::failed to load data:: --> {e}")
 
     # Converts fahrenheit to celsius
-    def fahr_to_c(self, f):
+    def fahr_to_c(self, f: Union[int, float]) -> float:
         return (f - 32.0) / 1.8
 
     # Converts celsius to fahrenheit
-    def c_to_fahr(self, c):
+    def c_to_fahr(self, c: Union[int, float]) -> float:
         return (c * 9.0 / 5.0) + 32.0
     
     # Returns the atomic number based on the element symbol or name
