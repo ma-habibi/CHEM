@@ -3,6 +3,15 @@ import copy as cp
 
 class Balance:
     def __init__(self, left_side, right_side):
+        """
+        left_side: string of the left side of the equation
+        right_side: string of the right side of the equation
+        left_tables: list of dictionaries of the left side of the equation
+        right_tables: list of dictionaries of the right side of the equation
+        elements: set of elements in the equation
+        balanced_equation: tuple of the balanced left and right side of the equation
+        """
+
         self.left_side = left_side
         self.right_side = right_side
         self.left_tables = []
@@ -15,6 +24,10 @@ class Balance:
         self.balanced_equation = self.__get_balanced()
 
     def __initialize(self):
+        """
+        initializes the fields of the class
+        """
+
         left_formulas = self.left_side.split(" ")
         left_formulas = [formula for formula in left_formulas if formula != '+']
 
@@ -44,7 +57,10 @@ class Balance:
                 self.elements.add(k)
 
     def __calculate_balanced(self):
-        # Parse and balance the formulas
+        """
+        calculates the balanced equation
+        """
+
         left_formulas_parsed = self.left_tables
         right_formulas_parsed = self.right_tables
 
@@ -61,6 +77,10 @@ class Balance:
         return left_formulas_parsed, right_formulas_parsed
 
     def __balance_element(self, element, d):
+        """
+        balances the element in the equation
+        """
+
         # access formula
         lefts = np.array([])
         left_co = np.array([])
@@ -132,6 +152,10 @@ class Balance:
                 a['coefficent'] = r_c.pop(0)
 
     def __is_balanced(self, l, r):
+        """
+        checks if the equation is balanced
+        """
+
         for element in self.elements:
             if not self.__is_element_balanced(element, (l, r)):
                 return False
@@ -139,6 +163,11 @@ class Balance:
         return True
 
     def __is_element_balanced(self, element, d):
+        """
+        checks if the element is balanced for example 
+        if quantity of 'O' in right side == quantity of 'O' in left side
+        """
+
         # access formula
         lefts = np.array([])
         left_co = np.array([])
@@ -162,9 +191,19 @@ class Balance:
         return False
             
     def __get_balanced(self):
+        """
+        calls the function to calculate the balanced equation
+        """
+
         return self.__calculate_balanced()
 
     def __parse_formula(self, x):
+        """
+        takes formula as string and returns a dictionary of the elements and their quantity
+        in this format {element: quantity, element: quantity, coefficent: coefficent}
+        eg : {'H': 2, 'O': 1, 'coefficent': 2}
+        """
+
         i = 0
         
         left_side_table = dict()
@@ -232,6 +271,7 @@ class Balance:
         """
         returns a formated string of the balanced equation
         """
+
         equation = self.balanced_equation
         output = ""
 
@@ -267,7 +307,7 @@ class Balance:
 
         return output
     
-if __name__ == "__main__":
+if __name__ == "__main__": # DEBUG
     test = []
     test.append(("C_4H_10 + O_2", "CO_2 + H_2O"))
     test.append(("Al + HCl", "AlCl_3 + H_2"))
