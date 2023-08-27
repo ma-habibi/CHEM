@@ -1,8 +1,9 @@
 import numpy as np
 import copy as cp
+import typing
 
 class Balance:
-    def __init__(self, left_side, right_side):
+    def __init__(self, left_side: str, right_side: str): 
         """
         left_side: string of the left side of the equation
         right_side: string of the right side of the equation
@@ -18,12 +19,12 @@ class Balance:
         self.right_tables = []
         self.elements = set()
         self.__initialize()
-        print("in")
-        print(f"{left_side} --> {right_side}")
-        print("out")
+        print("in") # DEBUG
+        print(f"{left_side} --> {right_side}") # DEBUG
+        print("out") # DEBUG
         self.balanced_equation = self.__get_balanced()
 
-    def __initialize(self):
+    def __initialize(self) -> None:
         """
         initializes the fields of the class
         """
@@ -56,7 +57,7 @@ class Balance:
 
                 self.elements.add(k)
 
-    def __calculate_balanced(self):
+    def __calculate_balanced(self) -> typing.Tuple[typing.List[typing.Dict[str, int]], typing.List[typing.Dict[str, int]]]:
         """
         calculates the balanced equation
         """
@@ -76,7 +77,7 @@ class Balance:
 
         return left_formulas_parsed, right_formulas_parsed
 
-    def __balance_element(self, element, d):
+    def __balance_element(self, element: str, d: typing.Tuple[typing.List[typing.Dict[str, int]], typing.List[typing.Dict[str, int]]]) -> None:
         """
         balances the element in the equation
         """
@@ -151,7 +152,7 @@ class Balance:
             if element in a.keys():
                 a['coefficent'] = r_c.pop(0)
 
-    def __is_balanced(self, l, r):
+    def __is_balanced(self, l: typing.List[typing.Dict[str, int]], r: typing.List[typing.Dict[str, int]]) -> bool:
         """
         checks if the equation is balanced
         """
@@ -162,7 +163,7 @@ class Balance:
 
         return True
 
-    def __is_element_balanced(self, element, d):
+    def __is_element_balanced(self, element: str, d: typing.Tuple[typing.List[typing.Dict[str, int]], typing.List[typing.Dict[str, int]]]) -> bool:
         """
         checks if the element is balanced for example 
         if quantity of 'O' in right side == quantity of 'O' in left side
@@ -190,14 +191,14 @@ class Balance:
     
         return False
             
-    def __get_balanced(self):
+    def __get_balanced(self) -> typing.Tuple[typing.List[typing.Dict[str, int]], typing.List[typing.Dict[str, int]]]:
         """
         calls the function to calculate the balanced equation
         """
 
         return self.__calculate_balanced()
 
-    def __parse_formula(self, x):
+    def __parse_formula(self, x: str) -> typing.Dict[str, int]:
         """
         takes formula as string and returns a dictionary of the elements and their quantity
         in this format {element: quantity, element: quantity, coefficent: coefficent}
@@ -267,7 +268,7 @@ class Balance:
 
         return left_side_table
 
-    def str(self):
+    def str(self) -> str:
         """
         returns a formated string of the balanced equation
         """
