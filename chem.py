@@ -7,7 +7,7 @@ class Chem:
         self.elements_df = self.__init_elements_df()
 
     def __calculate_compound_molarmass(self, compound: str, i: int, sum_: float) -> float:
-    """Calculates molar_mass of compound"""
+        """Calculates molar_mass of compound"""
 
         if i < len(compound):
             # Get name of next element
