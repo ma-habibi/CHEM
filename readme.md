@@ -24,7 +24,8 @@ If you would like to contribute to this project, please feel free to submit a pu
 ## Documentations :
 
 by convention a chemical formula should be passed as argument to methods in the following format:<br> 
-<center>H_2O.</center>
+
+<p align="center">H_2O</p>
 
 * of course the first letter of an element is capitalized, second letter is lowercase and the number of atoms of the element is subscripted after the element symbol.
 
