@@ -1,4 +1,4 @@
-# Chem a library for chemical calculations
+# Chem, python library for chemical calculations
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ if __name__ == "__main__":
   chem = Chem();
 
   # Gets molar mass of water
-  print(chem.get_compound_molarmass("H201")
+  print(chem.get_compound_molarmass("H_2O")
 ```
 
 ## Contributing
@@ -22,6 +22,11 @@ if __name__ == "__main__":
 If you would like to contribute to this project, please feel free to submit a pull request or open an issue.
 
 ## Documentations :
+
+by convention a chemical formula should be passed as argument to methods in the following format:<br> 
+<center>H_2O.</center>
+
+* of course the first letter of an element is capitalized, second letter is lowercase and the number of atoms of the element is subscripted after the element symbol.
 
 ## chem.py :
 
@@ -58,10 +63,9 @@ calculates the molar mass of an element.
 chem.get_element_molarmass('He') # returns ~ 4.0
 
 """
-calculates the molar mass of compound.( calls the helper function calculate_compound_molarmass(compound, i:0, sum:0.0))
-parameter compound : the input, contains name of the compound. number of atoms must be provided for each element, even if is 1. Example : "H2O1"
+calculates the molar mass of compound.( calls the helper private method __calculate_compound_molarmass(compound)
 """
-chem.get_compound_molarmass("H2O1") # returns ~ 18.0
+chem.get_compound_molarmass("H_2O") # returns ~ 18.0
 
 """
 calculates the number of elementary elements in a given compound.
