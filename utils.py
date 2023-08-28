@@ -68,4 +68,7 @@ def parse_formula(x: str) -> typing.Dict[str, int]:
         if left_side_table[element] == 0:
             left_side_table[element] = 1
 
+    # cast coefficent to int to make sure it is an integer
+    left_side_table["coefficent"] = int(left_side_table["coefficent"])
+
     return left_side_table

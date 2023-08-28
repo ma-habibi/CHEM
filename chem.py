@@ -1,45 +1,25 @@
 import pandas as pd
 from typing import Union
+from utils import parse_formula
 
 class Chem:
     def __init__(self):
         self.AVOGADRO = 6.022e23;
         self.elements_df = self.__init_elements_df()
 
-    def __calculate_compound_molarmass(self, compound: str, i: int, sum_: float) -> float:
+    def __calculate_compound_molarmass(self, compound: str) -> float:
         """Calculates molar_mass of compound"""
 
-        if i < len(compound):
-            # Get name of next element
-            elementBuffer = ""
-            while i < len(compound) and compound[i].isalpha():
-                elementBuffer += compound[i]
-                i += 1
+        molar_mass = 0.0
 
-            if len(elementBuffer) == 0:
-                raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.__calculate_compound_molarmass")
+        compound_dict = parse_formula(compound) # { "H": 2, "O": 1 , "coefficient": 1 }
 
-            # Get number of atoms
-            atom_count_buffer = ""
-            while i < len(compound) and compound[i].isdigit():
-                # First read the number of atoms into a string
-                atom_count_buffer += compound[i]
-                i += 1
+        coefficent = compound_dict.pop("coefficent") # remove coefficients
 
-            if len(atom_count_buffer) == 0:
-                raise ValueError(
-                    "\n::YOU MUST ENTER THE NUMBER OF ATOMS, EVEN IF THERE IS ONE (eg : 'H2O1'):: -> CHEM.__calculate_compound_molarmass")
+        for key in compound_dict.keys():
+            molar_mass += self.elements_df.loc[self.elements_df["element"] == key]["molar_mass"].values[0] * compound_dict[key]
 
-            atom_count = int(atom_count_buffer)
-            molarmass = self.get_element_molarmass(elementBuffer)
-
-            # Adds the contribution of the molecule to the total molar mass of the compound
-            sum_ += (atom_count * molarmass)
-
-            # Recursively calls itself with the new index for compound to read the next molecule
-            return self.__calculate_compound_molarmass(compound, i, sum_)
-
-        return sum_
+        return molar_mass * coefficent
 
     def __init_elements_df(self):
         """Initializes the data frame"""
@@ -150,15 +130,21 @@ class Chem:
         molar_mass = self.get_compound_molarmass(compound)
         return (element_g * self.AVOGADRO) / molar_mass
 
+
     def get_compound_molarmass(self, compound: str) -> float:
         """
         # Returns molar_mass of compound
         
         chem = Chem()
-        chem.get_compound_molarmass("H2O1") # returns ~ 18.0
+        a = []
+        a.append("H_2O") # ~ 18.0
+        a.append("CaCl_2") # ~ 110.98
+
+        for i in a:
+            print(chem.get_compound_molarmass(i))
         """
 
-        return self.__calculate_compound_molarmass(compound, 0, 0.0)
+        return self.__calculate_compound_molarmass(compound)
    
     def get_group(self, element: str) -> str:
         """
@@ -218,3 +204,13 @@ class Chem:
             " ⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⠗⠂⠄⠀⣴⡟⠀⠀⡃⠀⠉⠉⠟⡿⣿⣿⣿⣿\n" +
             "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠾⠛⠂⢹⠀⠀⠀⢡⠀⠀⠀⠀⠀⠙⠛⠿⢿\n\n" +
             "Say My Name ")
+
+if __name__ == "__main__":
+    chem = Chem()
+    a = []
+    a.append("H_2O") # ~ 18.0
+    a.append("CaCl_2") # ~ 110.98
+
+    for i in a:
+        print(chem.get_compound_molarmass(i))
+    # test values for get_compound_molarmass
