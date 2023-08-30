@@ -28,9 +28,9 @@ class Chem:
             df = pd.read_csv("./data.csv")
             return df
         except FileNotFoundError:
-            raise FileNotFoundError("::failed to load data:: -> the file is missing.")
+            raise FileNotFoundError("failed to load data -> the file is missing.")
         except Exception as e:
-            raise Exception(f"::failed to load data:: --> {e}")
+            raise Exception(f"failed to load data --> {e}")
 
     def fahr_to_c(self, f: Union[int, float]) -> float:
         """
@@ -64,12 +64,12 @@ class Chem:
         field = "element" if len(element) <= 2 else "name"
 
         if element not in self.elements_df[field].values:  # Check for argument
-            raise ValueError(f"\n::NO SUCH {field}:: -> CHEM.get_atomic_number")
+            raise ValueError(f"\n no such {field} -> CHEM.get_atomic_number")
 
         atomic_number = self.elements_df[self.elements_df[field] == element]["AtomicNumber"].values[0]
 
         if pd.isna(atomic_number):  # Check for Nan
-            raise ElectronConfigurationError(
+            raise Value(
                 f"\n::No atomic number found for element {element}:: -> CHEM.get_atomic_number()")
 
         return atomic_number
@@ -94,15 +94,15 @@ class Chem:
         
         # Checks for argument
         if element not in self.elements_df["element"].values:
-            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_density")
+            raise ValueError(f"\n no such element -> chem.get_element_density")
 
         # Accesses data
         density = self.elements_df.loc[self.elements_df["element"] == element]["Density"].values[0]
 
         # checks for Nan
         if pd.isna(density):  # Check for Nan
-            raise ElectronConfigurationError(
-                f"\n::No density found for element {element}:: -> CHEM.get_element_density()")
+            raise ValueError(
+                f"\n::No density found for element {element}:: -> chem.get_element_density()")
 
         return density
 
@@ -115,7 +115,7 @@ class Chem:
         """
 
         if element not in self.elements_df["element"].values:
-            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_element_molar_mass")
+            raise ValueError("\nno such element -> at chem.get_element_molar_mass")
 
         return self.elements_df.loc[self.elements_df["element"] == element]["molar_mass"].values[0]
 
@@ -155,13 +155,13 @@ class Chem:
         """
 
         if element not in self.elements_df["element"].values:
-            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_group")
+            raise ValueError(f"\n no such element -> at chem.get_group")
 
         group_block = self.elements_df.loc[self.elements_df["element"] == element]["GroupBlock"].values[0]
 
         if pd.isna(group_block):  # Check for Nan
-            raise groupBlockError(
-                f"\n::No block found for element {el}:: -> CHEM.get_group()")
+            raise ValueError(
+                f"\n no block found for element {el} -> at chem.get_group()")
 
         return group_block
     
@@ -174,14 +174,14 @@ class Chem:
         """
 
         if el not in self.elements_df["element"].values:
-            raise ValueError("\n::NO SUCH ELEMENT:: -> CHEM.get_electron_configuration()")
+            raise ValueError(f"\n no such element -> chem.get_electron_configuration()")
 
         electron_configuration = \
         self.elements_df.loc[self.elements_df["element"] == el]["ElectronConfiguration"].values[0]
 
         if pd.isna(electron_configuration):  # Check for Nan
-            raise ElectronConfigurationError(
-                f"\n::No electron configuration found for element {el}:: -> CHEM.get_electron_configuration()")
+            raise ValueError(
+                f"\n no electron configuration found for element {el} -> CHEM.get_electron_configuration()")
 
         return electron_configuration
 
@@ -207,10 +207,14 @@ class Chem:
 
 if __name__ == "__main__":
     chem = Chem()
-    a = []
-    a.append("H_2O") # ~ 18.0
-    a.append("CaCl_2") # ~ 110.98
 
-    for i in a:
-        print(chem.get_compound_molarmass(i))
+    chem = Chem()
+    print(chem.get_group('klsajf')) # returns Nonmetal
+    print(chem.get_group('He')) # returns Nonmetal
+    # a = []
+    # a.append("H_2O") # ~ 18.0
+    # a.append("CaCl_2") # ~ 110.98
+
+    # for i in a:
+    #     print(chem.get_compound_molarmass(i))
     # test values for get_compound_molarmass
