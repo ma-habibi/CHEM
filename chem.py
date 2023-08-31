@@ -17,7 +17,7 @@ class Chem:
         coefficent = compound_dict.pop("coefficent") # remove coefficients
 
         for key in compound_dict.keys():
-            molar_mass += self.elements_df.loc[self.elements_df["element"] == key]["molar_mass"].values[0] * compound_dict[key]
+            molar_mass += self.elements_df.loc[self.elements_df["Element"] == key]["MolarMass"].values[0] * compound_dict[key]
 
         return molar_mass * coefficent
 
@@ -61,7 +61,7 @@ class Chem:
         chem.get_atomic_number('Lithium') # returns 3
         """
 
-        field = "element" if len(element) <= 2 else "name"
+        field = "Element" if len(element) <= 2 else "Name"
 
         if element not in self.elements_df[field].values:  # Check for argument
             raise ValueError(f"\n no such {field} -> CHEM.get_atomic_number")
@@ -93,11 +93,11 @@ class Chem:
         """
         
         # Checks for argument
-        if element not in self.elements_df["element"].values:
+        if element not in self.elements_df["Element"].values:
             raise ValueError(f"\n no such element -> chem.get_element_density")
 
         # Accesses data
-        density = self.elements_df.loc[self.elements_df["element"] == element]["Density"].values[0]
+        density = self.elements_df.loc[self.elements_df["Element"] == element]["Density"].values[0]
 
         # checks for Nan
         if pd.isna(density):  # Check for Nan
@@ -114,10 +114,10 @@ class Chem:
         chem.get_element_molarmass('He') # returns ~ 4.0
         """
 
-        if element not in self.elements_df["element"].values:
+        if element not in self.elements_df["Element"].values:
             raise ValueError("\nno such element -> at chem.get_element_molar_mass")
 
-        return self.elements_df.loc[self.elements_df["element"] == element]["molar_mass"].values[0]
+        return self.elements_df.loc[self.elements_df["Element"] == element]["MolarMass"].values[0]
 
     def get_elementary_elements(self, compound: str, element_g: Union[int, float]) -> float:
         """
@@ -154,10 +154,10 @@ class Chem:
         chem.get_group('H') # returns Nonmetal
         """
 
-        if element not in self.elements_df["element"].values:
+        if element not in self.elements_df["Element"].values:
             raise ValueError(f"\n no such element -> at chem.get_group")
 
-        group_block = self.elements_df.loc[self.elements_df["element"] == element]["GroupBlock"].values[0]
+        group_block = self.elements_df.loc[self.elements_df["Element"] == element]["GroupBlock"].values[0]
 
         if pd.isna(group_block):  # Check for Nan
             raise ValueError(
@@ -173,11 +173,11 @@ class Chem:
         chem.get_electron_configuration("He") # returns "1s2"
         """
 
-        if el not in self.elements_df["element"].values:
+        if el not in self.elements_df["Element"].values:
             raise ValueError(f"\n no such element -> chem.get_electron_configuration()")
 
         electron_configuration = \
-        self.elements_df.loc[self.elements_df["element"] == el]["ElectronConfiguration"].values[0]
+        self.elements_df.loc[self.elements_df["Element"] == el]["ElectronConfiguration"].values[0]
 
         if pd.isna(electron_configuration):  # Check for Nan
             raise ValueError(
