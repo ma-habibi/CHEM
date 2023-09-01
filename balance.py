@@ -36,10 +36,10 @@ class Balance:
         right_formulas = [formula for formula in right_formulas if formula != '+']
 
         for formula in left_formulas:
-            self.left_tables.append(self.__parse_formula(formula))
+            self.left_tables.append(self.parse_formula(formula))
 
         for formula in right_formulas:
-            self.right_tables.append(self.__parse_formula(formula))
+            self.right_tables.append(self.parse_formula(formula))
 
         for t in self.left_tables:
             keys = t.keys()
@@ -81,26 +81,24 @@ class Balance:
         """
         balances the element in the equation
         """
+        if self.__is_balanced(d[0], d[1]):
+            return 
 
         # access formula
         lefts = np.array([])
         left_co = np.array([])
         rights = np.array([])
         right_co = np.array([])
-    
+
         for a in d[0]:
             if element in a.keys():
                 lefts = np.append(lefts, np.int32(a[element]))
                 left_co = np.append(left_co, np.int32(a['coefficent']))
-        
+
         for a in d[1]:
             if element in a.keys():
                 rights = np.append(rights, np.int32(a[element]))
                 right_co = np.append(right_co, np.int32(a['coefficent']))
-    
-        # Algortithm to balance element
-        if np.dot(rights, right_co) == np.dot(lefts, left_co):
-            return
     
         low = (100000, 10000) # DEBUG
         start = target = 0
@@ -198,7 +196,7 @@ class Balance:
 
         return self.__calculate_balanced()
 
-    def __parse_formula(self, x: str) -> typing.Dict[str, int]:
+    def parse_formula(self, x: str) -> typing.Dict[str, int]:
         """
         takes formula as string and returns a dictionary of the elements and their quantity
         in this format {element: quantity, element: quantity, coefficent: coefficent}
