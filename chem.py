@@ -1,6 +1,7 @@
 import pandas as pd
 from typing import Union
-from utils import parse_formula
+
+from utils import parse_formula # local import
 
 
 class Chem:
@@ -15,11 +16,14 @@ class Chem:
 
         compound_dict = parse_formula(compound)  # { "H": 2, "O": 1 , "coefficient": 1 }
 
-        coefficient = compound_dict.pop("coefficient")  # remove coefficients
+        coefficient = compound_dict.pop("coefficent")  # remove coefficients
 
         for key in compound_dict.keys():
-            molar_mass += self.elements_df.loc[self.elements_df["Element"] == key]["MolarMass"].values[0] * \
-                          compound_dict[key]
+            print(key)
+            self.__check_for_element(key, "__calculate_compound_molarmass")
+
+        for key in compound_dict.keys():
+            molar_mass += self.elements_df.loc[self.elements_df["Element"] == key]["MolarMass"].values[0] * compound_dict[key]
 
         return molar_mass * coefficient
 
@@ -41,7 +45,9 @@ class Chem:
         chem = Chem()
         chem.fahr_to_c(32.0) # returns 0.0
         """
-        # self.value(f)
+        if not isinstance(f, (int, float)):
+            raise ValueError("\n fahr_to_c() -> f must be a number")
+        
         return (f - 32.0) / 1.8
 
     def c_to_fahr(self, c: Union[int, float]) -> float:
@@ -51,6 +57,9 @@ class Chem:
         chem = Chem()
         chem.c_to_fahr(0): # returns 32.0
         """
+        if not isinstance(c, (int, float)):
+            raise ValueError("\n c_to_fahr() -> c must be a number")
+
         return (c * 9.0 / 5.0) + 32.0
 
     def get_atomic_number(self, element: str) -> float:
@@ -64,12 +73,13 @@ class Chem:
 
         field = "Element" if len(element) <= 2 else "Name"
 
-        if element not in self.elements_df[field].values:  # Check for argument
-            raise ValueError(f"\n no such {field} -> CHEM.get_atomic_number")
+        self.__check_for_element(element, "get_atomic_number")
 
         atomic_number = self.elements_df[self.elements_df[field] == element]["AtomicNumber"].values[0]
 
-        self.check_nan_value(atomic_number)
+        error_message = f"no atomic number found for element {element}"
+        method_name = f"chem.get_atomic_number()"
+        self.__check_nan_value(atomic_number, error_message, method_name)
 
         return atomic_number
 
@@ -91,18 +101,15 @@ class Chem:
         chem.get_element_density("He") # returns ~ 0.0001785
         """
 
-        self.argument(element)
-        # if element not in self.elements_df["Element"].values:
-        #   raise ValueError(f"\n no such element -> chem.get_element_density")
+        self.__check_for_element(element, "get_element_density")
 
         # Accesses data
         density = self.elements_df.loc[self.elements_df["Element"] == element]["Density"].values[0]
 
         # checks for Nan
-        self.check_nan_value(density)
-        # if pd.isna(density):  # Check for Nan
-        #    raise ValueError(
-        #       f"\n::No density found for element {element}:: -> chem.get_element_density()")
+        error_message = f"no density found for element {element}"
+        method_name = f"chem.get_element_density()"
+        self.__check_nan_value(density, error_message, method_name)
 
         return density
 
@@ -114,7 +121,7 @@ class Chem:
         chem.get_element_molarmass('He') # returns ~ 4.0
         """
 
-        self.argument(element)
+        self.__check_for_element(element, "get_element_molarmass")
         # if element not in self.elements_df["Element"].values:
         #   raise ValueError("\nno such element -> at chem.get_element_molar_mass")
 
@@ -154,16 +161,14 @@ class Chem:
         chem = Chem()
         chem.get_group('H') # returns Nonmetal
         """
-        self.argument(element)
-        # if element not in self.elements_df["Element"].values:
-        #   raise ValueError(f"\n no such element -> at chem.get_group")
+
+        self.__check_for_element(element, "get_group")
 
         group_block = self.elements_df.loc[self.elements_df["Element"] == element]["GroupBlock"].values[0]
 
-        self.check_nan_value(group_block)
-        # if pd.isna(parameter):  # Check for Nan
-        #   raise ValueError(
-        #      f"\n no block found for element {el} -> at chem.get_group()")
+        error_message = f"no block found for element {element}"
+        method_name = f"chem.get_group()"
+        self.__check_nan_value(group_block, error_message, method_name)
 
         return group_block
 
@@ -175,27 +180,24 @@ class Chem:
         chem.get_electron_configuration("He") # returns "1s2"
         """
 
-        self.argument(el)
-        # if el not in self.elements_df["Element"].values:
-        #   raise ValueError(f"\n no such element -> chem.get_electron_configuration()")
+        self.__check_for_element(el, "get_electron_configuration")
 
-        electron_configuration = \
-            self.elements_df.loc[self.elements_df["Element"] == el]["ElectronConfiguration"].values[0]
+        electron_configuration = self.elements_df.loc[
+                self.elements_df["Element"] == el]["ElectronConfiguration"].values[0]
 
-        self.check_nan_value(electron_configuration)
-        # if pd.isna(electron_configuration):  # Check for Nan
-        #   raise ValueError(
-        #      f"\n no electron configuration found for element {el} -> CHEM.get_electron_configuration()")
+        error_message = f"no electron configuration found for element {el}"
+        method_name = f"CHEM.get_electron_configuration()"
+        self.__check_nan_value(electron_configuration, error_message, method_name)
 
         return electron_configuration
 
-    def check_nan_value(self, parameter):
+    def __check_nan_value(self, parameter, msg, method_name):
         if pd.isna(parameter):
-            raise ValueError(f"\n:: there is no record for your element ::")
+            raise ValueError(f"\n {msg}  -> at {method_name}")
 
-    def argument(self, element):
+    def __check_for_element(self, element, method_name):
         if element not in self.elements_df["Element"].values:
-            raise ValueError(f"\n your target element it's not in table, please check your element and try again")
+            raise ValueError(f"\n no such element -> chem.{method_name}")
 
     def WALTERWHITE(self):
         print(
@@ -220,15 +222,67 @@ class Chem:
 
 if __name__ == "__main__":
     chem = Chem()
+    # write test for all the methods in Chem class
+    print(chem.get_atomic_number("He")) # 2
+    print(chem.get_element_density("He")) # 0.0001785
+    print(chem.get_element_molarmass("He")) # 4.002602
+    print(chem.get_elementary_elements("He", 4.0)) # 2.0
+    print(chem.get_compound_molarmass("H_2O")) # 18.01528
+    print(chem.get_group("He")) # Noble Gas
+    print(chem.get_electron_configuration("He")) # 1s2
+    print(chem.atoms_to_mass(2.35e24, "Cu1")) # 248.0
+    print(chem.fahr_to_c(32.0)) # 0.0
+    print(chem.c_to_fahr(0.0)) # 32.0
 
-    # print(chem.get_group('klsajf')) # returns Nonmetal
-    # print(chem.get_group('He')) # returns Nonmetal
-    # a = []
-    # a.append("H_2O") # ~ 18.0
-    # a.append("CaCl_2") # ~ 110.98
+    # write test for all errors to be raised
+    try:
+        chem.get_atomic_number("D")
+    except ValueError as e:
+        print(e)
 
-    # for i in a:
-    #     print(chem.get_compound_molarmass(i))
-    # test values for get_compound_molarmass
-    # print(chem.fahr_to_c(110))
-    # print(chem.get_element_molarmass("He"))
+    try:
+        chem.get_element_density("D")
+    except ValueError as e:
+        print(e)
+
+    try:
+        chem.get_element_molarmass("D")
+    except ValueError as e:
+        print(e)
+
+    try:
+        chem.get_elementary_elements("D", 4.0)
+    except ValueError as e:
+        print(e)
+
+    try:
+        chem.get_compound_molarmass("D")
+    except ValueError as e:
+        print(e)
+
+    try:
+        chem.get_group("D")
+    except ValueError as e:
+        print(e)
+
+    try:
+        chem.get_electron_configuration("D")
+    except ValueError as e:
+        print(e)
+
+    try:
+        chem.atoms_to_mass(2.35e24, "D")
+    except ValueError as e:
+        print(e)
+
+    try:
+        chem.fahr_to_c("D")
+    except ValueError as e:
+        print(e)
+
+
+
+    
+
+
+
