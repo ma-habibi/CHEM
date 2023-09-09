@@ -2,6 +2,7 @@ import pandas as pd
 from typing import Union
 from utils import parse_formula
 
+
 class Chem:
     def __init__(self):
         self.AVOGADRO = 6.022e23;
@@ -39,7 +40,6 @@ class Chem:
         chem = Chem()
         chem.fahr_to_c(32.0) # returns 0.0
         """
-
         return (f - 32.0) / 1.8
 
     def c_to_fahr(self, c: Union[int, float]) -> float:
@@ -66,13 +66,14 @@ class Chem:
         if element not in self.elements_df[field].values:  # Check for argument
             raise ValueError(f"\n no such {field} -> CHEM.get_atomic_number")
 
-        atomic_number = self.elements_df[self.elements_df[field] == element]["AtomicNumber"].values[0]
+        parameter = self.elements_df[self.elements_df[field] == element]["AtomicNumber"].values[0]
 
-        if pd.isna(atomic_number):  # Check for Nan
-            raise Value(
-                f"\n::No atomic number found for element {element}:: -> CHEM.get_atomic_number()")
+        self.nan(parameter)
+        #if pd.isna(parameter):  # Check for Nan
+         #   raise Value(
+          #      f"\n::No atomic number found for element {element}:: -> CHEM.get_atomic_number()")
 
-        return atomic_number
+        return parameter
 
     def atoms_to_mass(self, quantity: int, chemical: str) -> float:
         """
@@ -91,20 +92,22 @@ class Chem:
         chem = Chem()
         chem.get_element_density("He") # returns ~ 0.0001785
         """
-        
-        # Checks for argument
+
+
+
         if element not in self.elements_df["Element"].values:
             raise ValueError(f"\n no such element -> chem.get_element_density")
 
         # Accesses data
-        density = self.elements_df.loc[self.elements_df["Element"] == element]["Density"].values[0]
+        parameter = self.elements_df.loc[self.elements_df["Element"] == element]["Density"].values[0]
 
         # checks for Nan
-        if pd.isna(density):  # Check for Nan
-            raise ValueError(
-                f"\n::No density found for element {element}:: -> chem.get_element_density()")
+        self.nan(parameter)
+            # if pd.isna(density):  # Check for Nan
+        #    raise ValueError(
+         #       f"\n::No density found for element {element}:: -> chem.get_element_density()")
 
-        return density
+        return parameter
 
     def get_element_molarmass(self, element: str) -> float:
         """
@@ -157,13 +160,14 @@ class Chem:
         if element not in self.elements_df["Element"].values:
             raise ValueError(f"\n no such element -> at chem.get_group")
 
-        group_block = self.elements_df.loc[self.elements_df["Element"] == element]["GroupBlock"].values[0]
+        parameter = self.elements_df.loc[self.elements_df["Element"] == element]["GroupBlock"].values[0]
 
-        if pd.isna(group_block):  # Check for Nan
-            raise ValueError(
-                f"\n no block found for element {el} -> at chem.get_group()")
+        self.nan(parameter)
+        #if pd.isna(parameter):  # Check for Nan
+         #   raise ValueError(
+          #      f"\n no block found for element {el} -> at chem.get_group()")
 
-        return group_block
+        return parameter
     
     def get_electron_configuration(self, el: str) -> str:
         """
@@ -176,14 +180,20 @@ class Chem:
         if el not in self.elements_df["Element"].values:
             raise ValueError(f"\n no such element -> chem.get_electron_configuration()")
 
-        electron_configuration = \
+        parameter = \
         self.elements_df.loc[self.elements_df["Element"] == el]["ElectronConfiguration"].values[0]
 
-        if pd.isna(electron_configuration):  # Check for Nan
-            raise ValueError(
-                f"\n no electron configuration found for element {el} -> CHEM.get_electron_configuration()")
+        self.nan(parameter)
+        #if pd.isna(electron_configuration):  # Check for Nan
+         #   raise ValueError(
+          #      f"\n no electron configuration found for element {el} -> CHEM.get_electron_configuration()")
 
-        return electron_configuration
+        return parameter
+
+    def nan(self, parameter):
+        if pd.isna(parameter):
+            raise ValueError(f"\n::NAN value encountered ::")
+        return parameter
 
     def WALTERWHITE(self) -> str:
         print(
@@ -208,9 +218,9 @@ class Chem:
 if __name__ == "__main__":
     chem = Chem()
 
-    chem = Chem()
-    print(chem.get_group('klsajf')) # returns Nonmetal
-    print(chem.get_group('He')) # returns Nonmetal
+
+    #print(chem.get_group('klsajf')) # returns Nonmetal
+    #print(chem.get_group('He')) # returns Nonmetal
     # a = []
     # a.append("H_2O") # ~ 18.0
     # a.append("CaCl_2") # ~ 110.98
@@ -218,3 +228,5 @@ if __name__ == "__main__":
     # for i in a:
     #     print(chem.get_compound_molarmass(i))
     # test values for get_compound_molarmass
+    #print(chem.fahr_to_c(110))
+    print(chem.get_element_density("He"))
