@@ -9,6 +9,18 @@ class Chem:
         self.AVOGADRO = 6.022e23;
         self.elements_df = self.__init_elements_df()
 
+    def __check_nan_value(self, parameter, msg, method_name):
+        """Checks if the parameter is a Nan value"""
+
+        if pd.isna(parameter):
+            raise ValueError(f"\n {msg}  -> at {method_name}")
+
+    def __check_for_element(self, element, method_name):
+        """Checks if the element is in the data frame"""
+
+        if element not in self.elements_df["Element"].values:
+            raise ValueError(f"\n no such element -> chem.{method_name}")
+
     def __calculate_compound_molarmass(self, compound: str) -> float:
         """Calculates molar_mass of compound"""
 
@@ -19,7 +31,6 @@ class Chem:
         coefficient = compound_dict.pop("coefficent")  # remove coefficients
 
         for key in compound_dict.keys():
-            print(key)
             self.__check_for_element(key, "__calculate_compound_molarmass")
 
         for key in compound_dict.keys():
@@ -57,6 +68,7 @@ class Chem:
         chem = Chem()
         chem.c_to_fahr(0): # returns 32.0
         """
+
         if not isinstance(c, (int, float)):
             raise ValueError("\n c_to_fahr() -> c must be a number")
 
@@ -128,7 +140,6 @@ class Chem:
         return self.elements_df.loc[self.elements_df["Element"] == element]["MolarMass"].values[0]
 
     def get_elementary_elements(self, compound: str, element_g: Union[int, float]) -> float:
-
         """
         # Calculates the number of elementary elements in a compound
         
@@ -191,13 +202,6 @@ class Chem:
 
         return electron_configuration
 
-    def __check_nan_value(self, parameter, msg, method_name):
-        if pd.isna(parameter):
-            raise ValueError(f"\n {msg}  -> at {method_name}")
-
-    def __check_for_element(self, element, method_name):
-        if element not in self.elements_df["Element"].values:
-            raise ValueError(f"\n no such element -> chem.{method_name}")
 
     def WALTERWHITE(self):
         print(
@@ -218,7 +222,6 @@ class Chem:
             " ⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⠗⠂⠄⠀⣴⡟⠀⠀⡃⠀⠉⠉⠟⡿⣿⣿⣿⣿\n" +
             "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢷⠾⠛⠂⢹⠀⠀⠀⢡⠀⠀⠀⠀⠀⠙⠛⠿⢿\n\n" +
             "Say My Name ")
-
 
 if __name__ == "__main__":
     chem = Chem()
@@ -279,10 +282,3 @@ if __name__ == "__main__":
         chem.fahr_to_c("D")
     except ValueError as e:
         print(e)
-
-
-
-    
-
-
-
